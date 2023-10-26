@@ -15,8 +15,6 @@ const idGen = incrementalNumber();
 let EXPENSES = new Array(111).fill(true).map(() => buildExpense());
 const NATURES = ["restaurant", "trip"];
 
-// test comit
-
 const schema = {
   id: "/Expense",
   type: "object",
