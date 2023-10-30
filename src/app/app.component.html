@@ -1,2 +1,8 @@
-<span>{{ title }} app is running bb!</span>
-<button ng-click="ping()" (click)="ping()">OK</button>
+<div *ngIf="editing; then editingBlock; else listBlock"></div>
+<ng-template #editingBlock
+  ><expense-edit (editExpense)="editExpense(false)"></expense-edit
+></ng-template>
+<ng-template #listBlock
+  ><expenses-list (editExpense)="editExpense($event)"></expenses-list>
+</ng-template>
+<div>{{ editing }}</div>

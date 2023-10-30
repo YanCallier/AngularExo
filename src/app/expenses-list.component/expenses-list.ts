@@ -1,18 +1,22 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import axios from 'axios';
 import { Expense } from '../model';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './expensesList.html',
-  styleUrls: ['./expensesList.css'],
+  selector: 'expenses-list',
+  templateUrl: './expenses-list.html',
+  styleUrls: ['./expenses-list.css'],
 })
 export class ListComponent {
-  expenses: Expense[] = [];
-  // expenses: Hero[] = [];
+  @Output('editExpense') editExpense: EventEmitter<any> = new EventEmitter();
 
+  expenses: Expense[] = [];
   ngOnInit(): void {
     this.getExpenses();
+  }
+
+  addExpense(): void {
+    this.editExpense.emit(true);
   }
 
   getExpenses(): void {

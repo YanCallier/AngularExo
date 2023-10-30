@@ -1,14 +1,17 @@
 export class Expense {
-  nature!: Nature;
-  id!: number;
-  purchasedOn!: { type: string; format: Date };
-  amount!: number;
-  comment!: string;
-  distance!: number;
-  updatedAt!: { type: string; format: Date };
+  constructor(
+    public nature: Nature,
+    public id: number,
+    public purchasedOn: string,
+    public amount: number,
+    public updatedAt: string,
+    public distance?: number,
+    public invites?: number,
+    public comment?: string
+  ) {}
 }
 
-enum Nature {
-  'restaurant',
-  'trip',
+export enum Nature {
+  restaurant = 'restaurant',
+  trip = 'trip',
 }

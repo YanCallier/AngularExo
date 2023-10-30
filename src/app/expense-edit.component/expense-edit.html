@@ -1,0 +1,113 @@
+<div class="container">
+  <h1>Edition de dépense</h1>
+  {{ model | json }}
+  <form (ngSubmit)="onSubmit()" #expenseForm="ngForm">
+    <div class="form-group">
+      <label for="purchasedOn">Date</label>
+      <input
+        type="text"
+        class="form-control"
+        id="purchasedOn"
+        required
+        [(ngModel)]="model && model.purchasedOn"
+        name="purchasedOn"
+        #purchasedOn="ngModel"
+      />
+      <div
+        [hidden]="purchasedOn.valid || purchasedOn.pristine"
+        class="alert alert-danger"
+      >
+        Date is required
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="amount">Amount</label>
+      <input
+        type="number"
+        class="form-control"
+        id="amount"
+        required
+        [(ngModel)]="model && model.amount"
+        name="amount"
+        #amount="ngModel"
+      />
+      <div
+        [hidden]="amount.valid || amount.pristine"
+        class="alert alert-danger"
+      >
+        Amount is required
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="nature">Nature</label>
+      <select
+        class="form-control"
+        id="nature"
+        required
+        [(ngModel)]="model && model.nature"
+        name="nature"
+        #nature="ngModel"
+      >
+        <option *ngFor="let type of ['trip', 'restaurant']">{{type}}</option>
+      </select>
+
+      <div
+        [hidden]="nature.valid || nature.pristine"
+        class="alert alert-danger"
+      >
+        Nature is required
+      </div>
+    </div>
+
+    <div
+      class="form-group"
+      [hidden]="model && model.nature !== natureModel.trip"
+    >
+      <label for="distance">Distance</label>
+      <input
+        type="number"
+        class="form-control"
+        id="distance"
+        [(ngModel)]="model && model.distance"
+        name="distance"
+      />
+    </div>
+
+    <div
+      class="form-group"
+      [hidden]="model && model.nature !== natureModel.restaurant"
+    >
+      <label for="invites">Invites</label>
+      <input
+        type="number"
+        class="form-control"
+        id="invites"
+        [(ngModel)]="model && model.invites"
+        name="invites"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="comment">Comment</label>
+
+      <textarea
+        id="comment"
+        name="comment"
+        rows="5"
+        cols="33"
+        [(ngModel)]="model && model.comment"
+        class="form-control"
+      ></textarea>
+    </div>
+
+    <button
+      type="submit"
+      class="btn btn-success"
+      [disabled]="!expenseForm.form.valid"
+    >
+      Submit
+    </button>
+  </form>
+</div>

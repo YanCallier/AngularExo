@@ -7,7 +7,11 @@ import axios from 'axios';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  title = 'myTest';
+  editing = false;
+  editExpense(editing: boolean, id?: number): void {
+    this.editing = editing;
+    console.log('function call in the parent: ', this.editing);
+  }
 
   ping(): void {
     axios({
