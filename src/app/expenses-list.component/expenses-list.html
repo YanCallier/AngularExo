@@ -2,7 +2,6 @@
   Le super test de Yan
   <button (click)="addExpense()">+</button>
 </h1>
-<!-- <button (click)="addExpense()">+</button> -->
 <div class="container">
   <table cellspacing="0" cellpadding="0">
     <thead>
@@ -13,7 +12,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let expense of expenses">
+      <tr *ngFor="let expense of expenses" (click)="addExpense(expense)">
         <td>{{expense.purchasedOn}}</td>
         <td>{{expense.nature}}</td>
         <td>{{expense.amount}}</td>

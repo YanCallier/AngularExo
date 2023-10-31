@@ -1,8 +1,10 @@
 <div *ngIf="editing; then editingBlock; else listBlock"></div>
 <ng-template #editingBlock
-  ><expense-edit (editExpense)="editExpense(false)"></expense-edit
+  ><expense-edit
+    (editExpense)="editExpense({ editing: false })"
+    [editedExpense]="editedExpense"
+  ></expense-edit
 ></ng-template>
 <ng-template #listBlock
   ><expenses-list (editExpense)="editExpense($event)"></expenses-list>
 </ng-template>
-<div>{{ editing }}</div>

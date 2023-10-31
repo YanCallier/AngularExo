@@ -15,8 +15,8 @@ export class ListComponent {
     this.getExpenses();
   }
 
-  addExpense(): void {
-    this.editExpense.emit(true);
+  addExpense(expense?: Expense): void {
+    this.editExpense.emit({ editing: true, expense: expense });
   }
 
   getExpenses(): void {
