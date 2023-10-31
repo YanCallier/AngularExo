@@ -12,17 +12,18 @@
         [(ngModel)]="data.purchasedOn"
         name="purchasedOn"
         #purchasedOn="ngModel"
+        pattern="\d{4}-\d{2}-\d{2}"
       />
       <div
         [hidden]="purchasedOn.valid || purchasedOn.pristine"
         class="alert alert-danger"
       >
-        Date is yyyy-mm-dd
+        Date format : yyyy-mm-dd
       </div>
     </div>
 
     <div class="form-group">
-      <label for="amount">Amount</label>
+      <label for="amount">Montant</label>
       <input
         type="number"
         class="form-control"
@@ -31,12 +32,13 @@
         [(ngModel)]="data.amount"
         name="amount"
         #amount="ngModel"
+        pattern="[1-9][0-9]*"
       />
       <div
         [hidden]="amount.valid || amount.pristine"
         class="alert alert-danger"
       >
-        Amount is required
+        Le montant doit être un entier positif
       </div>
     </div>
 
@@ -49,6 +51,7 @@
         [(ngModel)]="data.nature"
         name="nature"
         #nature="ngModel"
+        (change)="data.invites = undefined; data.distance = undefined"
       >
         <option *ngFor="let type of ['trip', 'restaurant']">{{type}}</option>
       </select>
@@ -57,7 +60,7 @@
         [hidden]="nature.valid || nature.pristine"
         class="alert alert-danger"
       >
-        Nature is required
+        La nature de la dépense est requise
       </div>
     </div>
 
@@ -69,7 +72,16 @@
         id="distance"
         [(ngModel)]="data.distance"
         name="distance"
+        pattern="[1-9][0-9]*"
+        [required]="data.nature === natureModel.trip"
+        #distance="ngModel"
       />
+      <div
+        [hidden]="distance.valid || distance.pristine"
+        class="alert alert-danger"
+      >
+        La ditance est requise pour un trajet (entier positif)
+      </div>
     </div>
 
     <div class="form-group" [hidden]="data.nature !== natureModel.restaurant">
@@ -80,7 +92,16 @@
         id="invites"
         [(ngModel)]="data.invites"
         name="invites"
+        pattern="[1-9][0-9]*"
+        [required]="data.nature === natureModel.restaurant"
+        #invites="ngModel"
       />
+      <div
+        [hidden]="invites.valid || invites.pristine"
+        class="alert alert-danger"
+      >
+        Le nombre d'invités est requis pour un restau (entier positif)
+      </div>
     </div>
 
     <div class="form-group">
