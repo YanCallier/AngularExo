@@ -1,6 +1,5 @@
 <div class="container">
   <h1>{{title}}</h1>
-  {{ data | json }}
   <form (ngSubmit)="onSubmit()" #expenseForm="ngForm">
     <div class="form-group">
       <label for="purchasedOn">Date</label>
@@ -111,7 +110,7 @@
         id="comment"
         name="comment"
         rows="5"
-        cols="33"
+        cols="100"
         [(ngModel)]="data.comment"
         class="form-control"
       ></textarea>

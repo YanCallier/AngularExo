@@ -1,0 +1,27 @@
+.form-group {
+  width: 300px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  padding: 5px;
+}
+
+.form-group textarea {
+  width: 100%;
+}
+
+[hidden] {
+  display: none;
+}
+
+.alert-danger {
+  padding: 10px;
+  background-color: rgba(255, 0, 0, 0.5);
+  width: 100%;
+}
