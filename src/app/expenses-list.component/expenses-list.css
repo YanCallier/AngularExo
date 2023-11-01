@@ -1,6 +1,5 @@
 .container {
   max-height: 500px;
-  overflow-y: scroll;
 }
 
 table {
@@ -9,7 +8,6 @@ table {
 }
 
 th {
-  position: sticky;
   top: 0;
   z-index: 1;
   background-color: rgb(75, 95, 110);
@@ -52,4 +50,17 @@ tbody tr:nth-child(odd):hover {
 
 tbody tr:nth-child(even):hover {
   background-color: rgba(125, 145, 160, 0.5);
+}
+
+.large-field {
+  width: 500px;
+}
+
+.pagination {
+  display: flex;
+  margin-top: 20px;
+}
+
+.pagination div {
+  margin: 10px 20px;
 }

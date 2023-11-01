@@ -14,16 +14,34 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let expense of expenses" (click)="addExpense(expense)">
+      <tr
+        *ngFor="let expense of displayedExpense"
+        (click)="addExpense(expense)"
+      >
         <td>{{expense.purchasedOn}}</td>
         <td>{{expense.nature}}</td>
         <td>
           {{expense.nature === Nature.trip ? expense.distance+ ' km' :
           expense.invites + ' invités'}}
         </td>
-        <td>{{expense.comment}}</td>
+        <td class="large-field">{{expense.comment}}</td>
         <td>{{expense.amount}}</td>
       </tr>
     </tbody>
   </table>
+  <div class="pagination">
+    <button
+      (click)="updatePageNumber(this.currentPage -1)"
+      [disabled]="this.currentPage < 1"
+    >
+      Prev
+    </button>
+    <div>{{this.currentPage +1}}</div>
+    <button
+      (click)="updatePageNumber(this.currentPage +1)"
+      [disabled]="(this.currentPage+1)*this.rowsBypage >= this.expenses.length"
+    >
+      Next
+    </button>
+  </div>
 </div>

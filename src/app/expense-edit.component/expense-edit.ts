@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Expense, KeysOfExpense, Nature } from '../model';
-import { sendExpense } from '../services';
+import { appStorage, sendExpense } from '../services';
 
 @Component({
   selector: 'expense-edit',
@@ -15,13 +15,18 @@ export class EditComponent {
   title: string = '';
   ngOnInit(): void {
     this.data = this.editedExpense;
-    this.title = this.editedExpense.id
+    this.title = this.editedExpense.updatedAt
       ? 'Edition de dépense'
       : 'Nouvelle dépense';
   }
   onSubmit() {
     const validExpense: Expense = this.data as Expense;
-    sendExpense(validExpense, () => this.editExpense.emit());
+    sendExpense(validExpense, () => {
+      if (!this.data.updatedAt) {
+        appStorage.currentPage = 0;
+      }
+      this.editExpense.emit();
+    });
   }
 
   natureModel = Nature;

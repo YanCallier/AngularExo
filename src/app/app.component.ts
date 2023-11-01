@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import axios from 'axios';
 import { Expense, KeysOfExpense } from './model';
 
 const currentDate = (): string => {

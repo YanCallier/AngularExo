@@ -40,3 +40,7 @@ function serve(
     .then((response) => callBack(response))
     .catch((response) => console.log('getExpenses ERROR : ', response));
 }
+
+export const appStorage = {
+  currentPage: 0,
+};
