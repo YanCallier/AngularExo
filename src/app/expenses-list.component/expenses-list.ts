@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import axios from 'axios';
 import { Expense } from '../model';
+import { getExpenses } from '../services';
 
 @Component({
   selector: 'expenses-list',
@@ -12,24 +13,10 @@ export class ListComponent {
 
   expenses: Expense[] = [];
   ngOnInit(): void {
-    this.getExpenses();
+    getExpenses((response) => (this.expenses = response.data.items));
   }
 
   addExpense(expense?: Expense): void {
     this.editExpense.emit({ editing: true, expense: expense });
-  }
-
-  getExpenses(): void {
-    axios({
-      method: 'GET',
-      url: 'http://localhost:3000/expenses',
-    })
-      .then((response) => {
-        console.log('ping', response.data.items);
-        this.expenses = response.data.items;
-      })
-      .catch((response) => {
-        console.log('getExpenses ERROR : ', response);
-      });
   }
 }

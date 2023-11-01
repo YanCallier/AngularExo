@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import axios from 'axios';
 import { Expense, KeysOfExpense, Nature } from '../model';
 import { NgForm } from '@angular/forms';
+import { sendExpense } from '../services';
 
 @Component({
   selector: 'expense-edit',
@@ -21,26 +22,9 @@ export class EditComponent {
       : 'Nouvelle dépense';
   }
   onSubmit() {
-    this.addExpenses();
+    const validExpense: Expense = this.data as Expense;
+    sendExpense(validExpense, () => this.editExpense.emit());
   }
 
   natureModel = Nature;
-  addExpenses(): void {
-    let url = 'http://localhost:3000/expenses';
-    if (this.data.id) {
-      url += `/${this.data.id}`;
-    }
-    axios({
-      method: this.data.id ? 'PUT' : 'POST',
-      url: url,
-      data: this.data,
-    })
-      .then((response) => {
-        console.log('ping', response.data.items);
-        this.editExpense.emit();
-      })
-      .catch((response) => {
-        console.log('getExpenses ERROR : ', response);
-      });
-  }
 }
