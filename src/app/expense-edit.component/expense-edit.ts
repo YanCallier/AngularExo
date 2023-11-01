@@ -1,7 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import axios from 'axios';
 import { Expense, KeysOfExpense, Nature } from '../model';
-import { NgForm } from '@angular/forms';
 import { sendExpense } from '../services';
 
 @Component({
@@ -27,4 +25,5 @@ export class EditComponent {
   }
 
   natureModel = Nature;
+  keysOfNature = Object.keys(Nature);
 }

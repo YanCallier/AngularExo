@@ -52,7 +52,7 @@
         #nature="ngModel"
         (change)="data.invites = undefined; data.distance = undefined"
       >
-        <option *ngFor="let type of ['trip', 'restaurant']">{{type}}</option>
+        <option *ngFor="let type of keysOfNature">{{type}}</option>
       </select>
 
       <div

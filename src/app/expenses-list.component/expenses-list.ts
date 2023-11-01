@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import axios from 'axios';
 import { Expense, Nature } from '../model';
 import { getExpenses } from '../services';
 

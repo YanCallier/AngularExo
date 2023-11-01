@@ -24,13 +24,4 @@ export class AppComponent {
       this.editedExpense = emptyExpense;
     }
   }
-
-  ping(): void {
-    axios({
-      method: 'OPTIONS',
-      url: 'http://localhost:3000/',
-    }).then(function (response) {
-      console.log('ping', response);
-    });
-  }
 }
