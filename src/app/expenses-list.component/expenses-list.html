@@ -8,6 +8,8 @@
       <tr>
         <th>Date</th>
         <th>Type de dépenses</th>
+        <th>Détails</th>
+        <th>Commentaires</th>
         <th>Montant</th>
       </tr>
     </thead>
@@ -15,6 +17,11 @@
       <tr *ngFor="let expense of expenses" (click)="addExpense(expense)">
         <td>{{expense.purchasedOn}}</td>
         <td>{{expense.nature}}</td>
+        <td>
+          {{expense.nature === Nature.trip ? expense.distance+ ' km' :
+          expense.invites + ' invités'}}
+        </td>
+        <td>{{expense.comment}}</td>
         <td>{{expense.amount}}</td>
       </tr>
     </tbody>

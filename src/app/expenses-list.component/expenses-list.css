@@ -4,7 +4,7 @@
 }
 
 table {
-  width: 500px;
+  width: 800px;
   border: none;
 }
 
@@ -18,8 +18,13 @@ th {
 
 th,
 td {
+  padding: 5px;
   text-align: center;
   cursor: pointer;
+  max-width: 150px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 h1 {

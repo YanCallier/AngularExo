@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import axios from 'axios';
-import { Expense } from '../model';
+import { Expense, Nature } from '../model';
 import { getExpenses } from '../services';
 
 @Component({
@@ -19,4 +19,6 @@ export class ListComponent {
   addExpense(expense?: Expense): void {
     this.editExpense.emit({ editing: true, expense: expense });
   }
+
+  Nature = Nature;
 }
