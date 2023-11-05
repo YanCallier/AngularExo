@@ -11,30 +11,50 @@ import { BehaviorSubject } from 'rxjs';
 export class ListComponent {
   @Output('editExpense') editExpense: EventEmitter<any> = new EventEmitter();
 
-  currentPage: number = 0;
+  currentPage: number = appStorage.currentPage;
   rowsBypage: number = 10;
+  lastPage: number = Math.round(appStorage.expenses.length / this.rowsBypage);
 
-  expenses: Expense[] = [];
-  displayedExpense: Expense[] = [];
+  displayedExpense: Expense[] = this.calcDisplayedExpense(
+    appStorage.expenses,
+    appStorage.currentPage
+  );
+
+  calcDisplayedExpense(
+    totalExpenses: Expense[],
+    currentPage: number
+  ): Expense[] {
+    return totalExpenses.slice(
+      currentPage * this.rowsBypage,
+      currentPage * this.rowsBypage + this.rowsBypage
+    );
+  }
 
   ngOnInit(): void {
-    getExpenses((response) => {
-      this.expenses = response.data.items;
-      this.currentPage = appStorage.currentPage;
-      this.calcDisplayedExpense(response.data.items, appStorage.currentPage);
-    });
+    this.currentPage = appStorage.currentPage;
+    if (appStorage.reloadStop) {
+      appStorage.reloadStop = false;
+    } else {
+      getExpenses((response) => {
+        appStorage.expenses = response.data.items;
+        this.lastPage = Math.round(
+          response.data.items.length / this.rowsBypage
+        );
+
+        this.displayedExpense = this.calcDisplayedExpense(
+          response.data.items,
+          appStorage.currentPage
+        );
+      });
+    }
   }
 
   updatePageNumber(pageNumber: number) {
     this.currentPage = pageNumber;
     appStorage.currentPage = pageNumber;
-    this.calcDisplayedExpense(this.expenses, pageNumber);
-  }
-
-  calcDisplayedExpense(totalExpenses: Expense[], currentPage: number) {
-    this.displayedExpense = totalExpenses.slice(
-      currentPage * this.rowsBypage,
-      currentPage * this.rowsBypage + this.rowsBypage
+    this.displayedExpense = this.calcDisplayedExpense(
+      appStorage.expenses,
+      pageNumber
     );
   }
 

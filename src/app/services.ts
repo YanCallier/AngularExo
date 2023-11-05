@@ -41,6 +41,13 @@ function serve(
     .catch((response) => console.log('getExpenses ERROR : ', response));
 }
 
-export const appStorage = {
+interface AppStoragePropeties {
+  currentPage: number;
+  expenses: [];
+  reloadStop: boolean;
+}
+export const appStorage: AppStoragePropeties = {
   currentPage: 0,
+  expenses: [],
+  reloadStop: false,
 };

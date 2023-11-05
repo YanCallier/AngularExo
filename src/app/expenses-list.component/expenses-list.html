@@ -36,10 +36,10 @@
     >
       Prev
     </button>
-    <div>{{this.currentPage +1}}</div>
+    <div>{{this.currentPage}}</div>
     <button
       (click)="updatePageNumber(this.currentPage +1)"
-      [disabled]="(this.currentPage+1)*this.rowsBypage >= this.expenses.length"
+      [disabled]="this.currentPage >= this.lastPage"
     >
       Next
     </button>
