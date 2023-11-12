@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Expense, KeysOfExpense, Nature } from '../model';
-import { appStorage, sendExpense } from '../services';
+import { DataService, appStorage } from '../services';
 
 @Component({
   selector: 'expense-edit',
@@ -10,6 +10,7 @@ import { appStorage, sendExpense } from '../services';
 export class EditComponent {
   @Input({ required: true }) editedExpense!: KeysOfExpense;
   @Output('editExpense') editExpense: EventEmitter<any> = new EventEmitter();
+  constructor(private dataService: DataService) {}
 
   data: KeysOfExpense = {};
   title: string = '';
@@ -21,7 +22,8 @@ export class EditComponent {
   }
   onSubmit() {
     const validExpense: Expense = this.data as Expense;
-    sendExpense(validExpense, () => {
+
+    this.dataService.sendExpense(validExpense).subscribe((response) => {
       if (!this.data.id) {
         appStorage.currentPage = 0;
       } else {

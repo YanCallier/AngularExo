@@ -39,7 +39,7 @@
     <div>{{this.currentPage}}</div>
     <button
       (click)="updatePageNumber(this.currentPage +1)"
-      [disabled]="this.currentPage >= this.lastPage"
+      [disabled]="this.currentPage >= this.lastPage()"
     >
       Next
     </button>

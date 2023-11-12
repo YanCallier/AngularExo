@@ -1,49 +1,32 @@
-import axios, { AxiosResponse } from 'axios';
 import { Expense } from './model';
+import { HttpClient, HttpRequest } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { Injectable } from '@angular/core';
 
-const basUrl = 'http://localhost:3000/expenses';
+const baseUrl = 'http://localhost:3000/expenses';
 
-interface Request {
-  method: string;
-  url: string;
-  data?: Expense;
-}
+@Injectable({
+  providedIn: 'root',
+})
+export class DataService {
+  constructor(private http: HttpClient) {}
 
-export function getExpenses(callBack: (response: AxiosResponse) => void): void {
-  const request = { method: 'GET', url: basUrl };
-  serve(request, callBack);
-}
-
-export function sendExpense(
-  expense: Expense,
-  callBack: (response: AxiosResponse) => void
-): void {
-  const request = {
-    method: 'POST',
-    url: basUrl,
-    data: expense,
-  };
-
-  if (expense.id) {
-    request.method = 'PUT';
-    request.url = `${basUrl}/${expense.id}`;
+  getExpenses(): Observable<{ items: Expense[] }> {
+    return this.http.get<{ items: Expense[] }>(baseUrl);
   }
 
-  serve(request, callBack);
-}
-
-function serve(
-  request: Request,
-  callBack: (response: AxiosResponse) => void
-): void {
-  axios(request)
-    .then((response) => callBack(response))
-    .catch((response) => console.log('getExpenses ERROR : ', response));
+  sendExpense(expense: Expense): Observable<Expense> {
+    return this.http.request<Expense>(
+      expense.id ? 'PUT' : 'POST',
+      expense.id ? `${baseUrl}/${expense.id}` : baseUrl,
+      { body: expense }
+    );
+  }
 }
 
 interface AppStoragePropeties {
   currentPage: number;
-  expenses: [];
+  expenses: Expense[];
   reloadStop: boolean;
 }
 export const appStorage: AppStoragePropeties = {
