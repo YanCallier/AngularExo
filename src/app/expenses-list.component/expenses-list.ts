@@ -1,7 +1,9 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Expense, Nature } from '../model';
+import { Expense, KeysOfExpense, Nature } from '../model';
 import { appStorage, DataService } from '../services';
 import { BehaviorSubject } from 'rxjs';
+import { Router } from '@angular/router';
+import { currentDate } from '../utils';
 
 @Component({
   selector: 'expenses-list',
@@ -9,8 +11,7 @@ import { BehaviorSubject } from 'rxjs';
   styleUrls: ['./expenses-list.css'],
 })
 export class ListComponent {
-  @Output('editExpense') editExpense: EventEmitter<any> = new EventEmitter();
-  constructor(private dataService: DataService) {}
+  constructor(private dataService: DataService, private router: Router) {}
 
   currentPage: number = appStorage.currentPage;
   rowsBypage: number = 10;
@@ -57,7 +58,8 @@ export class ListComponent {
   }
 
   addExpense(expense?: Expense): void {
-    this.editExpense.emit({ editing: true, expense: expense });
+    appStorage.editedExpense = expense;
+    this.router.navigate(['/editing']);
   }
 
   Nature = Nature;

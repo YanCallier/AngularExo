@@ -7,12 +7,17 @@ import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { importProvidersFrom } from '@angular/core';
-import { DataService } from './services';
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [AppComponent, ListComponent, EditComponent],
-  imports: [BrowserModule, FormsModule, CommonModule, HttpClientModule],
+  imports: [
+    BrowserModule,
+    FormsModule,
+    CommonModule,
+    HttpClientModule,
+    AppRoutingModule,
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })

@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Expense, KeysOfExpense, Nature } from '../model';
 import { DataService, appStorage } from '../services';
+import { currentDate } from '../utils';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'expense-edit',
@@ -8,34 +10,31 @@ import { DataService, appStorage } from '../services';
   styleUrls: ['./expense-edit.css'],
 })
 export class EditComponent {
-  @Input({ required: true }) editedExpense!: KeysOfExpense;
-  @Output('editExpense') editExpense: EventEmitter<any> = new EventEmitter();
-  constructor(private dataService: DataService) {}
+  constructor(private dataService: DataService, private router: Router) {}
 
   data: KeysOfExpense = {};
   title: string = '';
   ngOnInit(): void {
-    this.data = this.editedExpense;
-    this.title = this.editedExpense.id
-      ? 'Edition de dépense'
-      : 'Nouvelle dépense';
+    this.data = appStorage.editedExpense || { purchasedOn: currentDate() };
+    this.title = this.data.id ? 'Edition de dépense' : 'Nouvelle dépense';
   }
   onSubmit() {
+    console.log('coucou');
     const validExpense: Expense = this.data as Expense;
 
     this.dataService.sendExpense(validExpense).subscribe((response) => {
       if (!this.data.id) {
         appStorage.currentPage = 0;
       } else {
-        const storageIdex = appStorage.expenses.findIndex(
+        const storageIndex = appStorage.expenses.findIndex(
           (expense: Expense) => expense.id === this.data.id
         );
-        if (storageIdex > 0) {
-          (appStorage.expenses[storageIdex] as Expense) = validExpense;
+        if (storageIndex > 0) {
+          (appStorage.expenses[storageIndex] as Expense) = validExpense;
         }
         appStorage.reloadStop = true;
       }
-      this.editExpense.emit();
+      this.router.navigate(['/']);
     });
   }
 

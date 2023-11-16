@@ -1,4 +1,4 @@
-import { Expense } from './model';
+import { Expense, KeysOfExpense } from './model';
 import { HttpClient, HttpRequest } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
@@ -28,6 +28,7 @@ interface AppStoragePropeties {
   currentPage: number;
   expenses: Expense[];
   reloadStop: boolean;
+  editedExpense?: KeysOfExpense;
 }
 export const appStorage: AppStoragePropeties = {
   currentPage: 0,
