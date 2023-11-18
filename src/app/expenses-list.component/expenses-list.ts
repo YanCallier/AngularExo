@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Expense, KeysOfExpense, Nature } from '../model';
-import { appStorage, DataService } from '../services';
+import { appStorage, HttpServices } from '../services';
 import { BehaviorSubject } from 'rxjs';
 import { Router } from '@angular/router';
 import { currentDate } from '../utils';
@@ -11,7 +11,7 @@ import { currentDate } from '../utils';
   styleUrls: ['./expenses-list.css'],
 })
 export class ListComponent {
-  constructor(private dataService: DataService, private router: Router) {}
+  constructor(private httpService: HttpServices, private router: Router) {}
 
   currentPage: number = appStorage.currentPage;
   rowsBypage: number = 10;
@@ -38,7 +38,7 @@ export class ListComponent {
     if (appStorage.reloadStop) {
       appStorage.reloadStop = false;
     } else {
-      this.dataService.getExpenses().subscribe((result) => {
+      this.httpService.getExpenses().subscribe((result) => {
         appStorage.expenses = result.items;
         this.displayedExpense = this.calcDisplayedExpense(
           result.items,

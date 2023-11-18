@@ -1,0 +1,78 @@
+import { TestBed } from '@angular/core/testing';
+import {
+  HttpClientTestingModule,
+  HttpTestingController,
+} from '@angular/common/http/testing';
+import { HttpServices, baseUrl } from './services';
+import { Expense, KeysOfExpense, Nature } from './model';
+import { currentDate } from './utils';
+
+describe('HttpService', () => {
+  let service: HttpServices;
+  let httpTestingController: HttpTestingController;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
+      providers: [HttpServices],
+    });
+
+    service = TestBed.inject(HttpServices);
+    httpTestingController = TestBed.inject(HttpTestingController);
+  });
+
+  afterEach(() => {
+    httpTestingController.verify();
+  });
+
+  it('should be created', () => {
+    expect(service).toBeTruthy();
+  });
+
+  const testInput: KeysOfExpense = {
+    nature: Nature.trip,
+    purchasedOn: currentDate(),
+    amount: 123,
+    distance: 123,
+  };
+  const testExpense = testInput as Expense;
+  it('should send an expense via POST when no ID is provided', () => {
+    service.sendExpense(testExpense).subscribe((expense) => {
+      expect(expense).toEqual(testExpense);
+    });
+
+    const req = httpTestingController.expectOne(baseUrl);
+    expect(req.request.method).toEqual('POST');
+    req.flush(testExpense);
+  });
+  it('should send an expense via PUT when ID is provided', () => {
+    const testExpenseWithId = { ...testExpense, id: 123 };
+    service.sendExpense(testExpenseWithId).subscribe((expense) => {
+      expect(expense).toEqual(testExpenseWithId);
+    });
+
+    const req = httpTestingController.expectOne(
+      `${baseUrl}/${testExpenseWithId.id}`
+    );
+    expect(req.request.method).toEqual('PUT');
+    req.flush(testExpenseWithId);
+  });
+
+  it('should retrieve expenses from the API via GET', () => {
+    const testExpenses: { items: Expense[] } = {
+      items: [
+        testExpense,
+        { ...testExpense, nature: Nature.restaurant, invites: 5 },
+        { ...testExpense, distance: 10, amount: 142 },
+      ],
+    };
+
+    service.getExpenses().subscribe((expenses) => {
+      expect(expenses).toEqual(testExpenses);
+    });
+
+    const req = httpTestingController.expectOne(baseUrl);
+    expect(req.request.method).toEqual('GET');
+    req.flush(testExpenses);
+  });
+});

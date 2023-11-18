@@ -3,12 +3,12 @@ import { HttpClient, HttpRequest } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 
-const baseUrl = 'http://localhost:3000/expenses';
+export const baseUrl = 'http://localhost:3000/expenses';
 
 @Injectable({
   providedIn: 'root',
 })
-export class DataService {
+export class HttpServices {
   constructor(private http: HttpClient) {}
 
   getExpenses(): Observable<{ items: Expense[] }> {
