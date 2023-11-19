@@ -1,9 +1,7 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Expense, KeysOfExpense, Nature } from '../model';
+import { Component } from '@angular/core';
+import { Expense, Nature } from '../model';
 import { appStorage, HttpServices } from '../services';
-import { BehaviorSubject } from 'rxjs';
 import { Router } from '@angular/router';
-import { currentDate } from '../utils';
 
 @Component({
   selector: 'expenses-list',
