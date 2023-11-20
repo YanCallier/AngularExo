@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 
-import { EditComponent } from './expense-edit.component/expense-edit';
+import { EditComponent } from './expense-edit';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';

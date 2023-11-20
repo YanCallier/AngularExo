@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { Expense, Nature } from '../model';
 import { appStorage, HttpServices } from '../services';
 import { Router } from '@angular/router';
+import { catchError, tap, throwError } from 'rxjs';
+import { ErrorService } from '../services/error.service.service';
 
 @Component({
   selector: 'expenses-list',
@@ -9,7 +11,11 @@ import { Router } from '@angular/router';
   styleUrls: ['./expenses-list.css'],
 })
 export class ListComponent {
-  constructor(private httpService: HttpServices, private router: Router) {}
+  constructor(
+    private httpService: HttpServices,
+    private router: Router,
+    private errorService: ErrorService
+  ) {}
 
   currentPage: number = appStorage.currentPage;
   rowsBypage: number = 10;
@@ -36,13 +42,22 @@ export class ListComponent {
     if (appStorage.reloadStop) {
       appStorage.reloadStop = false;
     } else {
-      this.httpService.getExpenses().subscribe((result) => {
-        appStorage.expenses = result.items;
-        this.displayedExpense = this.calcDisplayedExpense(
-          result.items,
-          appStorage.currentPage
-        );
-      });
+      this.httpService
+        .getExpenses()
+        .pipe(
+          catchError((error) => {
+            this.errorService.reportError(error);
+            return throwError(() => error);
+          }),
+          tap((result) => {
+            appStorage.expenses = result.items;
+            this.displayedExpense = this.calcDisplayedExpense(
+              result.items,
+              appStorage.currentPage
+            );
+          })
+        )
+        .subscribe();
     }
   }
 

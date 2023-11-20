@@ -7,9 +7,10 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
+import { ErrorTracerComponent } from './error-tracer/error-tracer.component';
 
 @NgModule({
-  declarations: [AppComponent, ListComponent],
+  declarations: [AppComponent, ListComponent, ErrorTracerComponent],
   imports: [
     BrowserModule,
     FormsModule,

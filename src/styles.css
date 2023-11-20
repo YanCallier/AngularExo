@@ -11,3 +11,15 @@ body {
 a {
   text-decoration: none;
 }
+
+.alert {
+  padding: 10px;
+  background-color: rgba(255, 0, 0, 0.5);
+}
+.alert-danger {
+  width: 100%;
+}
+
+h2 {
+  margin: 0;
+}
