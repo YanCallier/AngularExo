@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { Expense, KeysOfExpense, Nature } from '../model';
-import { HttpServices, appStorage } from '../services';
+import { HttpServices, appStorage } from '../services/http-services';
 import { currentDate } from '../utils';
 import { Router } from '@angular/router';
 import { catchError, tap, throwError } from 'rxjs';
-import { ErrorService } from '../services/error.service.service';
+import { ErrorService } from '../services/error-service';
+import { StorageService } from '../services/storage-service';
 
 @Component({
   selector: 'expense-edit',
@@ -15,7 +16,8 @@ export class EditComponent {
   constructor(
     private httpService: HttpServices,
     private router: Router,
-    private errorService: ErrorService
+    private errorService: ErrorService,
+    private storageService: StorageService
   ) {}
 
   data: KeysOfExpense = {};
@@ -36,7 +38,7 @@ export class EditComponent {
         }),
         tap((response) => {
           if (!this.data.id) {
-            appStorage.currentPage = 0;
+            this.storageService.setCurrentPage(0);
           } else {
             const storageIndex = appStorage.expenses.findIndex(
               (expense: Expense) => expense.id === this.data.id

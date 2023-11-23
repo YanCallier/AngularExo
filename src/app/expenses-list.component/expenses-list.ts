@@ -1,9 +1,10 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { Expense, Nature } from '../model';
-import { appStorage, HttpServices } from '../services';
+import { appStorage, HttpServices } from '../services/http-services';
 import { Router } from '@angular/router';
 import { catchError, tap, throwError } from 'rxjs';
-import { ErrorService } from '../services/error.service.service';
+import { ErrorService } from '../services/error-service';
+import { StorageService } from '../services/storage-service';
 
 @Component({
   selector: 'expenses-list',
@@ -14,17 +15,18 @@ export class ListComponent {
   constructor(
     private httpService: HttpServices,
     private router: Router,
-    private errorService: ErrorService
+    private errorService: ErrorService,
+    private storageService: StorageService
   ) {}
 
-  currentPage: number = appStorage.currentPage;
+  currentPage: number = this.storageService.getCurrentPage();
   rowsBypage: number = 10;
   lastPage: () => number = () =>
     Math.round(appStorage.expenses.length / this.rowsBypage);
 
   displayedExpense: Expense[] = this.calcDisplayedExpense(
     appStorage.expenses,
-    appStorage.currentPage
+    this.currentPage
   );
 
   calcDisplayedExpense(
@@ -38,7 +40,6 @@ export class ListComponent {
   }
 
   ngOnInit(): void {
-    this.currentPage = appStorage.currentPage;
     if (appStorage.reloadStop) {
       appStorage.reloadStop = false;
     } else {
@@ -53,7 +54,7 @@ export class ListComponent {
             appStorage.expenses = result.items;
             this.displayedExpense = this.calcDisplayedExpense(
               result.items,
-              appStorage.currentPage
+              this.currentPage
             );
           })
         )
@@ -63,7 +64,7 @@ export class ListComponent {
 
   updatePageNumber(pageNumber: number) {
     this.currentPage = pageNumber;
-    appStorage.currentPage = pageNumber;
+    this.storageService.setCurrentPage(pageNumber);
     this.displayedExpense = this.calcDisplayedExpense(
       appStorage.expenses,
       pageNumber

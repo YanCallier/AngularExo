@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { appStorage } from './services';
-import { ErrorService } from './services/error.service.service';
+import { appStorage } from './services/http-services';
+import { ErrorService } from './services/error-service';
 
 @Component({
   selector: 'app-root',

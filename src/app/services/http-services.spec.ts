@@ -3,9 +3,9 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { HttpServices, baseUrl } from './services';
-import { Expense, KeysOfExpense, Nature } from './model';
-import { currentDate } from './utils';
+import { HttpServices, baseUrl } from './http-services';
+import { Expense, KeysOfExpense, Nature } from '../model';
+import { currentDate } from '../utils';
 
 describe('HttpService', () => {
   let service: HttpServices;

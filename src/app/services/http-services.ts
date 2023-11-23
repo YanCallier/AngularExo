@@ -1,4 +1,4 @@
-import { Expense, KeysOfExpense } from './model';
+import { Expense, KeysOfExpense } from '../model';
 import {
   HttpClient,
   HttpErrorResponse,
@@ -51,13 +51,11 @@ export class HttpServices {
 }
 
 interface AppStoragePropeties {
-  currentPage: number;
   expenses: Expense[];
   reloadStop: boolean;
   editedExpense?: KeysOfExpense;
 }
 export const appStorage: AppStoragePropeties = {
-  currentPage: 0,
   expenses: [],
   reloadStop: false,
 };
