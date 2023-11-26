@@ -1,6 +1,6 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component } from '@angular/core';
 import { Expense, Nature } from '../model';
-import { appStorage, HttpServices } from '../services/http-services';
+import { HttpServices } from '../services/http-services';
 import { Router } from '@angular/router';
 import { catchError, tap, throwError } from 'rxjs';
 import { ErrorService } from '../services/error-service';
@@ -21,11 +21,14 @@ export class ListComponent {
 
   currentPage: number = this.storageService.getCurrentPage();
   rowsBypage: number = 10;
+  expenses = this.storageService.getExpenses();
+  Nature = Nature; // this is needed to use it in html form
+
   lastPage: () => number = () =>
-    Math.round(appStorage.expenses.length / this.rowsBypage);
+    Math.round(this.expenses.length / this.rowsBypage);
 
   displayedExpense: Expense[] = this.calcDisplayedExpense(
-    appStorage.expenses,
+    this.expenses,
     this.currentPage
   );
 
@@ -40,8 +43,9 @@ export class ListComponent {
   }
 
   ngOnInit(): void {
-    if (appStorage.reloadStop) {
-      appStorage.reloadStop = false;
+    if (this.storageService.getReloadStop()) {
+      this.storageService.setReloadStop(false);
+      this.expenses = this.storageService.getExpenses();
     } else {
       this.httpService
         .getExpenses()
@@ -51,7 +55,8 @@ export class ListComponent {
             return throwError(() => error);
           }),
           tap((result) => {
-            appStorage.expenses = result.items;
+            this.expenses = result.items;
+            this.storageService.setExpenses(result.items);
             this.displayedExpense = this.calcDisplayedExpense(
               result.items,
               this.currentPage
@@ -66,15 +71,13 @@ export class ListComponent {
     this.currentPage = pageNumber;
     this.storageService.setCurrentPage(pageNumber);
     this.displayedExpense = this.calcDisplayedExpense(
-      appStorage.expenses,
+      this.expenses,
       pageNumber
     );
   }
 
-  addExpense(expense?: Expense): void {
-    appStorage.editedExpense = expense;
+  editeExpense(expense?: Expense): void {
+    this.storageService.setEditedExpense(expense);
     this.router.navigate(['/editing']);
   }
-
-  Nature = Nature;
 }

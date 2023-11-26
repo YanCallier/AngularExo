@@ -1,14 +1,12 @@
-export class Expense {
-  constructor(
-    public nature: Nature,
-    public id: number,
-    public purchasedOn: string,
-    public amount: number,
-    public updatedAt: string,
-    public distance?: number,
-    public invites?: number,
-    public comment?: string
-  ) {}
+export interface Expense {
+  nature: Nature;
+  id: number;
+  purchasedOn: string;
+  amount: number;
+  updatedAt: string;
+  distance?: number;
+  invites?: number;
+  comment?: string;
 }
 
 export enum Nature {

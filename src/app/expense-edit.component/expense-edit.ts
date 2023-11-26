@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Expense, KeysOfExpense, Nature } from '../model';
-import { HttpServices, appStorage } from '../services/http-services';
+import { HttpServices } from '../services/http-services';
 import { currentDate } from '../utils';
 import { Router } from '@angular/router';
 import { catchError, tap, throwError } from 'rxjs';
@@ -23,7 +23,9 @@ export class EditComponent {
   data: KeysOfExpense = {};
   title: string = '';
   ngOnInit(): void {
-    this.data = appStorage.editedExpense || { purchasedOn: currentDate() };
+    this.data = this.storageService.getEditedExpense() || {
+      purchasedOn: currentDate(),
+    };
     this.title = this.data.id ? 'Edition de dépense' : 'Nouvelle dépense';
   }
   onSubmit() {
@@ -40,13 +42,15 @@ export class EditComponent {
           if (!this.data.id) {
             this.storageService.setCurrentPage(0);
           } else {
-            const storageIndex = appStorage.expenses.findIndex(
+            const expenses = this.storageService.getExpenses();
+            const storageIndex = expenses.findIndex(
               (expense: Expense) => expense.id === this.data.id
             );
             if (storageIndex > 0) {
-              (appStorage.expenses[storageIndex] as Expense) = validExpense;
+              expenses[storageIndex] = validExpense;
+              this.storageService.setExpenses(expenses);
             }
-            appStorage.reloadStop = true;
+            this.storageService.setReloadStop(true);
           }
           this.router.navigate(['/']);
         })

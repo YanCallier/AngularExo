@@ -1,6 +1,6 @@
 <h1>
   Le super test de Yan
-  <button (click)="addExpense()">+</button>
+  <button (click)="editeExpense()">+</button>
 </h1>
 <div class="container">
   <table cellspacing="0" cellpadding="0">
@@ -16,7 +16,7 @@
     <tbody>
       <tr
         *ngFor="let expense of displayedExpense"
-        (click)="addExpense(expense)"
+        (click)="editeExpense(expense)"
       >
         <td>{{expense.purchasedOn}}</td>
         <td>{{expense.nature}}</td>

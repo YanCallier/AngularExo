@@ -21,7 +21,7 @@ export class HttpServices {
         return throwError(
           () =>
             new Error(
-              "La récupération de données s'est mal passé. Veuillez réessayer plus tard.",
+              "Une erreur s'est produite lors de la récupération de données : ",
               { cause: error.message }
             )
         );
@@ -41,7 +41,7 @@ export class HttpServices {
           return throwError(
             () =>
               new Error(
-                "L'envoie de données s'est mal passé. Veuillez réessayer plus tard.",
+                "Une erreur s'est produite lors de l'envoie de données de donnée : ",
                 { cause: error.message }
               )
           );
@@ -49,13 +49,3 @@ export class HttpServices {
       );
   }
 }
-
-interface AppStoragePropeties {
-  expenses: Expense[];
-  reloadStop: boolean;
-  editedExpense?: KeysOfExpense;
-}
-export const appStorage: AppStoragePropeties = {
-  expenses: [],
-  reloadStop: false,
-};

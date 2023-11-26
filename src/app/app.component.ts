@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { appStorage } from './services/http-services';
 import { ErrorService } from './services/error-service';
 
 @Component({
@@ -13,7 +12,6 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.errorService.error$.subscribe((error) => {
       this.error = error;
-      console.error('Error : ', error);
     });
   }
 }
