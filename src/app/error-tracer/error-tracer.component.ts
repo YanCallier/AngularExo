@@ -6,5 +6,5 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./error-tracer.component.css'],
 })
 export class ErrorTracerComponent {
-  @Input({ required: true }) error!: Error;
+  @Input() error!: Error;
 }
