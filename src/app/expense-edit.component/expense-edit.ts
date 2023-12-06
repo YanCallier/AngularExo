@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Expense, KeysOfExpense, Nature } from '../model';
+import { Expense, Nature } from '../model';
 import { HttpServices } from '../services/http-services';
 import { currentDate } from '../utils';
 import { Router } from '@angular/router';
@@ -20,7 +20,7 @@ export class EditComponent {
     private storageService: StorageService
   ) {}
 
-  data: KeysOfExpense = {};
+  data: Partial<Expense> = {};
   title: string = '';
   ngOnInit(): void {
     this.data = this.storageService.getEditedExpense() || {

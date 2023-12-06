@@ -13,8 +13,3 @@ export enum Nature {
   restaurant = 'restaurant',
   trip = 'trip',
 }
-
-// This make the Expense properties optional, to use it in empty form
-export type KeysOfExpense = {
-  [K in keyof Expense]?: Expense[K];
-};

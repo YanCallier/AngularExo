@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Expense, KeysOfExpense } from '../model';
+import { Expense } from '../model';
 
 @Injectable({
   providedIn: 'root',
@@ -19,8 +19,8 @@ export class StorageService {
   getExpenses = () => this.expenses;
   setExpenses = (expenses: Expense[]) => (this.expenses = expenses);
 
-  private editedExpense: KeysOfExpense | undefined;
+  private editedExpense: Partial<Expense> | undefined;
   getEditedExpense = () => this.editedExpense;
-  setEditedExpense = (expense: KeysOfExpense | undefined) =>
+  setEditedExpense = (expense: Partial<Expense> | undefined) =>
     (this.editedExpense = expense);
 }

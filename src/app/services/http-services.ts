@@ -1,9 +1,5 @@
-import { Expense, KeysOfExpense } from '../model';
-import {
-  HttpClient,
-  HttpErrorResponse,
-  HttpRequest,
-} from '@angular/common/http';
+import { Expense } from '../model';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, catchError, throwError } from 'rxjs';
 import { Injectable } from '@angular/core';
 
