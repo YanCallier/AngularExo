@@ -7,6 +7,7 @@ import { ErrorService } from '../services/error-service';
 import { StorageService } from '../services/storage-service';
 import { of, throwError } from 'rxjs';
 import { Expense, Nature } from '../model';
+import { generateRandomExpense } from '../utils';
 
 describe('EditComponent', () => {
   let component: EditComponent;
@@ -49,7 +50,7 @@ describe('EditComponent', () => {
 
   describe('ngOnInit', () => {
     it('should initialize data and title correctly', () => {
-      const testExpense = { id: 1, amount: 100 };
+      const testExpense = generateRandomExpense();
       storageServiceSpy.getEditedExpense.and.returnValue(testExpense);
 
       component.ngOnInit();
@@ -69,13 +70,7 @@ describe('EditComponent', () => {
 
   describe('onSubmit', () => {
     it('should call sendExpense and navigate when successful', () => {
-      const testExpense: Expense = {
-        id: 1,
-        amount: 100,
-        nature: Nature.trip,
-        purchasedOn: '2023-01-01',
-        updatedAt: '2023-01-01T00:00:00Z',
-      };
+      const testExpense = generateRandomExpense();
       httpServiceSpy.sendExpense.and.returnValue(of(testExpense));
       storageServiceSpy.getExpenses.and.returnValue([]);
       component.onSubmit();

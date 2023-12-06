@@ -26,11 +26,7 @@ export class ListComponent {
 
   lastPage: () => number = () =>
     Math.round(this.expenses.length / this.rowsBypage);
-
-  displayedExpense: Expense[] = this.calcDisplayedExpense(
-    this.expenses,
-    this.currentPage
-  );
+  displayedExpense: Expense[] = [];
 
   calcDisplayedExpense(
     totalExpenses: Expense[],
@@ -43,8 +39,13 @@ export class ListComponent {
   }
 
   ngOnInit(): void {
+    this.currentPage = this.storageService.getCurrentPage();
     if (this.storageService.getReloadStop()) {
       this.storageService.setReloadStop(false);
+      this.displayedExpense = this.calcDisplayedExpense(
+        this.expenses,
+        this.currentPage
+      );
       this.expenses = this.storageService.getExpenses();
     } else {
       this.httpService
