@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Expense, Nature } from '../model';
 import { HttpServices } from '../services/http-services';
 import { Router } from '@angular/router';
-import { catchError, tap, throwError } from 'rxjs';
+import { catchError, finalize, tap, throwError } from 'rxjs';
 import { ErrorService } from '../services/error-service';
 import { StorageService } from '../services/storage-service';
 
@@ -24,28 +24,10 @@ export class ListComponent {
   expenses = this.storageService.getExpenses();
   Nature = Nature; // this is needed to use it in html form
 
-  lastPage: () => number = () =>
-    Math.round(this.expenses.length / this.rowsBypage);
-  displayedExpense: Expense[] = [];
-
-  calcDisplayedExpense(
-    totalExpenses: Expense[],
-    currentPage: number
-  ): Expense[] {
-    return totalExpenses.slice(
-      currentPage * this.rowsBypage,
-      currentPage * this.rowsBypage + this.rowsBypage
-    );
-  }
-
   ngOnInit(): void {
     this.currentPage = this.storageService.getCurrentPage();
     if (this.storageService.getReloadStop()) {
       this.storageService.setReloadStop(false);
-      this.displayedExpense = this.calcDisplayedExpense(
-        this.expenses,
-        this.currentPage
-      );
       this.expenses = this.storageService.getExpenses();
     } else {
       this.httpService
@@ -58,14 +40,30 @@ export class ListComponent {
           tap((result) => {
             this.expenses = result.items;
             this.storageService.setExpenses(result.items);
+          }),
+          finalize(() => {
             this.displayedExpense = this.calcDisplayedExpense(
-              result.items,
+              this.expenses,
               this.currentPage
             );
           })
         )
         .subscribe();
     }
+  }
+
+  lastPage: () => number = () =>
+    Math.round(this.expenses.length / this.rowsBypage);
+  displayedExpense: Expense[] = [];
+
+  calcDisplayedExpense(
+    totalExpenses: Expense[],
+    currentPage: number
+  ): Expense[] {
+    return totalExpenses.slice(
+      currentPage * this.rowsBypage,
+      currentPage * this.rowsBypage + this.rowsBypage
+    );
   }
 
   updatePageNumber(pageNumber: number) {
