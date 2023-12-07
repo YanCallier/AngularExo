@@ -25,7 +25,7 @@ export class HttpServices {
     );
   }
 
-  sendExpense(expense: Expense): Observable<Expense> {
+  sendExpense(expense: Partial<Expense>): Observable<Expense> {
     return this.http
       .request<Expense>(
         expense.id ? 'PUT' : 'POST',

@@ -4,8 +4,8 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { HttpServices, baseUrl } from './http-services';
-import { Expense, KeysOfExpense, Nature } from '../model';
-import { currentDate } from '../utils';
+import { Expense, Nature } from '../model';
+import { currentDate, generateRandomExpense } from '../utils';
 
 describe('HttpService', () => {
   let service: HttpServices;
@@ -29,15 +29,11 @@ describe('HttpService', () => {
     expect(service).toBeTruthy();
   });
 
-  const testInput: KeysOfExpense = {
-    nature: Nature.trip,
-    purchasedOn: currentDate(),
-    amount: 123,
-    distance: 123,
-  };
-  const testExpense = testInput as Expense;
+  const testExpense: Expense = generateRandomExpense();
+
   it('should send an expense via POST when no ID is provided', () => {
-    service.sendExpense(testExpense).subscribe((expense) => {
+    const newExpense = { ...testExpense, id: undefined };
+    service.sendExpense(newExpense).subscribe((expense) => {
       expect(expense).toEqual(testExpense);
     });
 
@@ -46,16 +42,13 @@ describe('HttpService', () => {
     req.flush(testExpense);
   });
   it('should send an expense via PUT when ID is provided', () => {
-    const testExpenseWithId = { ...testExpense, id: 123 };
-    service.sendExpense(testExpenseWithId).subscribe((expense) => {
-      expect(expense).toEqual(testExpenseWithId);
+    service.sendExpense(testExpense).subscribe((expense) => {
+      expect(expense).toEqual(testExpense);
     });
 
-    const req = httpTestingController.expectOne(
-      `${baseUrl}/${testExpenseWithId.id}`
-    );
+    const req = httpTestingController.expectOne(`${baseUrl}/${testExpense.id}`);
     expect(req.request.method).toEqual('PUT');
-    req.flush(testExpenseWithId);
+    req.flush(testExpense);
   });
 
   it('should retrieve expenses from the API via GET', () => {

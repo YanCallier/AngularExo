@@ -29,16 +29,14 @@ export class EditComponent {
     this.title = this.data.id ? 'Edition de dépense' : 'Nouvelle dépense';
   }
   onSubmit() {
-    const validExpense: Expense = this.data as Expense;
-
     this.httpService
-      .sendExpense(validExpense)
+      .sendExpense(this.data)
       .pipe(
         catchError((error) => {
           this.errorService.reportError(error);
           return throwError(() => error);
         }),
-        tap((response) => {
+        tap(() => {
           if (!this.data.id) {
             this.storageService.setCurrentPage(0);
           } else {
@@ -47,7 +45,10 @@ export class EditComponent {
               (expense: Expense) => expense.id === this.data.id
             );
             if (storageIndex > 0) {
-              expenses[storageIndex] = validExpense;
+              expenses[storageIndex] = {
+                ...expenses[storageIndex],
+                ...this.data,
+              };
               this.storageService.setExpenses(expenses);
             }
             this.storageService.setReloadStop(true);
