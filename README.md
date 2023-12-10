@@ -1,5 +1,37 @@
 # Test front Lucca
 
+## Choix techniques
+
+### Architecture:
+
+3 composants :
+
+- expense-list : la liste des dépenses dans une table paginée
+- expense-edit : formulaire d'édition et de création de nouvelle dépense
+- error-tracer : affichage des erreurs
+
+3 services transverses : http-service (requetage HTML), storage-service (variables globales), error-service (gestion d'erreurs centralisé)
+
+Note : J'ai laissé la logiques propres aux composant dans les composant. J'ai considéré qu'il fallait exporter la logique dans des services uniquement lorsqu'elle est partagée entre plusieurs composants. Un autre choix aurait été d'utiliser les composants comme des objets de liaison entre un template HTML et de la logique métier portée par des services specialisés.
+
+### Dépendances :
+
+Le but de l'exercice étant d'explorer les possibilités d'Angular, je n'ai utilisé aucune librairie externe en dehors de celles proposées par défault. (RxJs pour la gestion des observables, Jasmin et Karma pour les tests)
+
+### Stratégie de test :
+
+Tous les services et le composants sont testés unitairement. Je n'ai pas ressenti le besoin de faire des tests end-to-end à ce niveau.
+Une part importante de la logique applicative étant portée par les composants, je ne pouvais pas faire l'impasse sur les tests composant. Après coup, je penses que la testabilité des tests composant est moins bonne que celles des services, donc il y a là une perte de temps évitable.
+
+=============================== Coverage summary ===============================
+Statements : 85.04% ( 91/107 )
+Branches : 84.21% ( 16/19 )
+Functions : 80.95% ( 34/42 )
+Lines : 83.5% ( 81/97 )
+
+Je m'étais fixé un seuil minimal de 80% de code coverage, en accord avec la loie de Pareto qui dit que les derniers 20% représentent 80% de l'effort; et que le ROI ne le justifie pas. J'imagine que ce point peut être discuté.
+Pour atteindre le seuil, j'ai réalisé les tests qui me semblaient nécéssaires avant de les adapter suite à un coverage insatisfaisant.
+
 ## But de l'exercice
 
 En vous servant de l'api fournie, vous réaliserez une application de saisie des dépenses.

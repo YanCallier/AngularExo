@@ -5,7 +5,7 @@ import {
 } from '@angular/common/http/testing';
 import { HttpServices, baseUrl } from './http-services';
 import { Expense, Nature } from '../model';
-import { currentDate, generateRandomExpense } from '../utils';
+import { generateRandomExpense } from '../utils';
 
 describe('HttpService', () => {
   let service: HttpServices;
