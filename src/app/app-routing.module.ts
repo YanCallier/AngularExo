@@ -13,6 +13,9 @@ const routes: Routes = [
   },
 ];
 
+//git remote set-url https://github.com/YanCallier/AngularExo.git
+// git remote set-url AngularExo https://github.com/YanCallier/AngularExo.git [https://github.com/LuccaTest/Test-Front.Yan-Callier.git]
+
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],

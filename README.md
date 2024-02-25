@@ -1,4 +1,4 @@
-# Test front Lucca
+# Test front
 
 ## Choix techniques
 
